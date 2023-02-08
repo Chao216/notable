@@ -1,7 +1,7 @@
 ---
 title: SQL 非技术快速入门
 created: '2023-02-08T11:27:02.530Z'
-modified: '2023-02-08T12:14:02.984Z'
+modified: '2023-02-08T12:16:53.648Z'
 ---
 
 # SQL 非技术快速入门
@@ -64,4 +64,9 @@ select device_id, age, university from user_profile where university like "%北�
 运营想要知道复旦大学学生gpa最高值是多少，请你取出相应数据
 ```sql
 select max(gpa) from user_profile where university = "复旦大学";
+```
+
+现在运营想要看一下男性用户有多少人以及他们的平均gpa是多少，用以辅助设计相关活动，请你取出相应数据。
+```sql
+select count(gender), avg(gpa) from user_profile where gender = "male";
 ```
