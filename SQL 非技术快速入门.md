@@ -1,7 +1,7 @@
 ---
 title: SQL 非技术快速入门
 created: '2023-02-08T11:27:02.530Z'
-modified: '2023-02-08T13:28:29.005Z'
+modified: '2023-02-08T13:43:01.319Z'
 ---
 
 # SQL 非技术快速入门
@@ -78,4 +78,14 @@ select gender, university, count(device_id) as user_num, avg(active_days_within_
 现在运营想查看每个学校用户的平均发贴和回帖情况，寻找低活跃度学校进行重点运营，请取出平均发贴数低于5的学校或平均回帖数小于20的学校。
 ```sql
 select university, avg(question_cnt) as avg_question_cnt, avg(answer_cnt) as avg_answer_cnt from user_profile group by university having (avg_question_cnt <5) or (avg_answer_cnt <20);
+```
+现在运营想要查看不同大学的用户平均发帖情况，并期望结果按照平均发帖情况进行升序排列，请你取出相应数据。
+```sql
+select university, avg(question_cnt) as avg_question_cnt from user_profile group by university order by avg_question_cnt asc;
+```
+
+***moderate***
+现在运营想要查看所有来自浙江大学的用户题目回答明细情况，请你取出相应数据
+```sql
+select qpd.device_id, qpd.question_id, qpd.result from question_practice_detail as qpd inner join user_profile as up on qpd.device_id = up.device_id and up.university = "浙江大学" order by question_id asc;
 ```
