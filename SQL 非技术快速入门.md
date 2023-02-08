@@ -1,7 +1,7 @@
 ---
 title: SQL 非技术快速入门
 created: '2023-02-08T11:27:02.530Z'
-modified: '2023-02-08T11:57:04.543Z'
+modified: '2023-02-08T11:58:46.857Z'
 ---
 
 # SQL 非技术快速入门
@@ -34,4 +34,8 @@ select device_id, gender, age from user_profile where age >=20 and age <= 23;
 现在运营想要查看除复旦大学以外的所有用户明细，请你取出相应数据
 ```sql
 select device_id, gender, age, university from user_profile where university not in ("复旦大学");
+```
+现在运营想要对用户的年龄分布开展分析，在分析时想要剔除没有获取到年龄的用户，请你取出所有年龄值不为空的用户的设备ID，性别，年龄，学校的信息。
+```sql
+select device_id, gender, age, university from user_profile where age is not null;
 ```
