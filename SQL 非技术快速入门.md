@@ -1,7 +1,7 @@
 ---
 title: SQL 非技术快速入门
 created: '2023-02-08T11:27:02.530Z'
-modified: '2023-02-08T12:22:47.149Z'
+modified: '2023-02-08T13:28:29.005Z'
 ---
 
 # SQL 非技术快速入门
@@ -73,4 +73,9 @@ select count(gender), avg(gpa) from user_profile where gender = "male";
 现在运营想要对每个学校不同性别的用户活跃情况和发帖数量进行分析，请分别计算出每个学校每种性别的用户数、30天内平均活跃天数和平均发帖数量。
 ```sql
 select gender, university, count(device_id) as user_num, avg(active_days_within_30) as avg_active_day, avg(question_cnt) as avg_question_cnt from user_profile group by gender, university;
+```
+
+现在运营想查看每个学校用户的平均发贴和回帖情况，寻找低活跃度学校进行重点运营，请取出平均发贴数低于5的学校或平均回帖数小于20的学校。
+```sql
+select university, avg(question_cnt) as avg_question_cnt, avg(answer_cnt) as avg_answer_cnt from user_profile group by university having (avg_question_cnt <5) or (avg_answer_cnt <20);
 ```
