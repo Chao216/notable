@@ -1,7 +1,7 @@
 ---
 title: SQL 非技术快速入门
 created: '2023-02-08T11:27:02.530Z'
-modified: '2023-02-08T12:16:53.648Z'
+modified: '2023-02-08T12:22:47.149Z'
 ---
 
 # SQL 非技术快速入门
@@ -69,4 +69,8 @@ select max(gpa) from user_profile where university = "复旦大学";
 现在运营想要看一下男性用户有多少人以及他们的平均gpa是多少，用以辅助设计相关活动，请你取出相应数据。
 ```sql
 select count(gender), avg(gpa) from user_profile where gender = "male";
+```
+现在运营想要对每个学校不同性别的用户活跃情况和发帖数量进行分析，请分别计算出每个学校每种性别的用户数、30天内平均活跃天数和平均发帖数量。
+```sql
+select gender, university, count(device_id) as user_num, avg(active_days_within_30) as avg_active_day, avg(question_cnt) as avg_question_cnt from user_profile group by gender, university;
 ```
