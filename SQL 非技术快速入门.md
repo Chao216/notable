@@ -1,7 +1,7 @@
 ---
 title: SQL 非技术快速入门
 created: '2023-02-08T11:27:02.530Z'
-modified: '2023-02-08T11:58:46.857Z'
+modified: '2023-02-08T12:01:19.135Z'
 ---
 
 # SQL 非技术快速入门
@@ -38,4 +38,8 @@ select device_id, gender, age, university from user_profile where university not
 现在运营想要对用户的年龄分布开展分析，在分析时想要剔除没有获取到年龄的用户，请你取出所有年龄值不为空的用户的设备ID，性别，年龄，学校的信息。
 ```sql
 select device_id, gender, age, university from user_profile where age is not null;
+```
+现在运营想要找到男性且GPA在3.5以上(不包括3.5)的用户进行调研，请你取出相关数据。
+```sql
+select device_id, gender, age, university, gpa from user_profile where gpa >3.5 and gender = "male";
 ```
