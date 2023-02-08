@@ -1,7 +1,7 @@
 ---
 title: SQL 非技术快速入门
 created: '2023-02-08T11:27:02.530Z'
-modified: '2023-02-08T13:43:01.319Z'
+modified: '2023-02-08T14:21:44.022Z'
 ---
 
 # SQL 非技术快速入门
@@ -88,4 +88,15 @@ select university, avg(question_cnt) as avg_question_cnt from user_profile group
 现在运营想要查看所有来自浙江大学的用户题目回答明细情况，请你取出相应数据
 ```sql
 select qpd.device_id, qpd.question_id, qpd.result from question_practice_detail as qpd inner join user_profile as up on qpd.device_id = up.device_id and up.university = "浙江大学" order by question_id asc;
+```
+
+***moderate***
+运营想要了解每个学校答过题的用户平均答题数量情况，请你取出数据。
+```sql
+select up.university, count(qpd.question_id)/count(distinct qpd.device_id) as avg_answer_cnt
+from user_profile as up
+right join question_practice_detail as qpd
+on up.device_id = qpd.device_id 
+group by up.university
+order by up.university asc;
 ```
