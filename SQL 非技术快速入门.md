@@ -1,20 +1,33 @@
 ---
 title: SQL 非技术快速入门
 created: '2023-02-08T11:27:02.530Z'
-modified: '2023-02-08T11:38:46.091Z'
+modified: '2023-02-08T11:46:43.160Z'
 ---
 
 # SQL 非技术快速入门
 
-从表中查找所有学校
+现在运营需要查看用户来自于哪些学校，请从用户信息表中取出学校的去重数据。
 ```sql
 select distinct university from user_profile;
 ```
-查询前几个行
+现在运营只需要查看前2个用户明细设备ID数据，请你从用户信息表 user_profile 中取出相应结果。
 ```sql
 select device_id from user_profile limit 2;
 ```
 现在你需要查看前2个用户明细设备ID数据，并将列名改为 'user_infos_example',，请你从用户信息表取出相应结果。
 ```sql
 select device_id as user_infos_example from user_profile limit 2;
+```
+现在运营想要筛选出所有北京大学的学生进行用户调研，请你从用户信息表中取出满足条件的数据，结果返回设备id和学校。
+```sql
+select device_id, university from user_profile where university = "北京大学";
+```
+现在运营想要针对24岁以上的用户开展分析，请你取出满足条件的设备ID、性别、年龄、学校。
+用户信息表：user_profile
+```sql
+select device_id, gender, age, university from user_profile where age >= 24;
+```
+现在运营想要针对20岁及以上且23岁及以下的用户开展分析，请你取出满足条件的设备ID、性别、年龄。
+```sql
+select device_id, gender, age from user_profile where age >=20 and age <= 23; 
 ```
