@@ -1,7 +1,7 @@
 ---
 title: SQL 非技术快速入门
 created: '2023-02-08T11:27:02.530Z'
-modified: '2023-02-08T14:21:44.022Z'
+modified: '2023-02-08T14:41:33.765Z'
 ---
 
 # SQL 非技术快速入门
@@ -99,4 +99,14 @@ right join question_practice_detail as qpd
 on up.device_id = qpd.device_id 
 group by up.university
 order by up.university asc;
+```
+运营想要计算一些参加了答题的不同学校、不同难度的用户平均答题量，请你写SQL取出相应数据
+```sql
+select up.university, qd.difficult_level, count(qpd.id)/count(distinct qpd.device_id) as avg_answer_cnt 
+from user_profile as up
+right join question_practice_detail as qpd 
+on up.device_id = qpd.device_id
+right join question_detail as qd
+on qpd.question_id = qd.question_id 
+group by up.university, qd.difficult_level;
 ```
