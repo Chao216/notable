@@ -1,7 +1,7 @@
 ---
 title: SQL 非技术快速入门
 created: '2023-02-08T11:27:02.530Z'
-modified: '2023-02-08T12:09:21.722Z'
+modified: '2023-02-08T12:14:02.984Z'
 ---
 
 # SQL 非技术快速入门
@@ -56,4 +56,12 @@ select device_id, gender, age, university, gpa from user_profile where universit
 现在运营想要找到gpa在3.5以上(不包括3.5)的山东大学用户 或 gpa在3.8以上(不包括3.8)的复旦大学同学进行用户调研，请你取出相应数据
 ```sql
 select device_id, gender, age, university, gpa from user_profile where (university="山东大学" and gpa >3.5) or (university="复旦大学" and gpa >3.8);
+```
+现在运营想查看所有大学中带有北京的用户的信息，请你取出相应数据。
+```sql
+select device_id, age, university from user_profile where university like "%北京%";
+```
+运营想要知道复旦大学学生gpa最高值是多少，请你取出相应数据
+```sql
+select max(gpa) from user_profile where university = "复旦大学";
 ```
