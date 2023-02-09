@@ -1,7 +1,7 @@
 ---
 title: SQL 非技术快速入门
 created: '2023-02-08T11:27:02.530Z'
-modified: '2023-02-09T06:46:10.558Z'
+modified: '2023-02-09T07:04:27.419Z'
 ---
 
 # SQL 非技术快速入门
@@ -200,4 +200,25 @@ select device_id, substring_index(blog_url,"/",-1)
 from user_submit;
 ```
 
+现在运营举办了一场比赛，收到了一些参赛申请，表数据记录形式如下所示，现在运营想要统计每个年龄的用户分别有多少参赛者，请取出相应结果
 
+```sql
+select substring_index(substring_index(profile,",",3),",",-1) as age, count(device_id) as number
+from user_submit
+group by age;
+```
+
+现在运营想要找到每个学校gpa最低的同学来做调研，请你取出每个学校的最低gpa。
+```sql
+select a.device_id, a.university,a.gpa
+from user_profile as a
+right join (
+    select min(gpa) as gpa, university
+    from user_profile
+    group by university
+    
+) as b
+on a.gpa = b.gpa and a.university = b.university
+order by a.university asc;
+
+```
