@@ -1,7 +1,7 @@
 ---
 title: SQL 非技术快速入门
 created: '2023-02-08T11:27:02.530Z'
-modified: '2023-02-08T15:36:18.622Z'
+modified: '2023-02-09T05:41:06.620Z'
 ---
 
 # SQL 非技术快速入门
@@ -122,4 +122,28 @@ on qd.question_id = qpd.question_id
 where up.university = "山东大学"
 group by qd.difficult_level;
 
+```
+现在运营想要分别查看学校为山东大学或者性别为男性的用户的device_id、gender、age和gpa数据，请取出相应结果，结果不去重。
+```sql
+select device_id, gender, age, gpa
+from user_profile
+where (university="山东大学")
+union all
+select device_id, gender, age, gpa
+from user_profile
+where (gender = "male");
+```
+
+### 使用case
+现在运营想要将用户划分为25岁以下和25岁及以上两个年龄段，分别查看这两个年龄段用户数量
+本题注意：age为null 也记为 25岁以下
+```sql
+select 
+case
+    when age >= 25 then "25岁及以上"
+    when age < 25 then "25岁以下"
+    else "25岁以下"
+end as age_cut, count(device_id) as number
+from user_profile
+group by age_cut;
 ```
