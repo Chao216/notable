@@ -1,7 +1,7 @@
 ---
 title: SQL 非技术快速入门
 created: '2023-02-08T11:27:02.530Z'
-modified: '2023-02-09T05:41:06.620Z'
+modified: '2023-02-09T05:53:19.050Z'
 ---
 
 # SQL 非技术快速入门
@@ -146,4 +146,25 @@ case
 end as age_cut, count(device_id) as number
 from user_profile
 group by age_cut;
+```
+现在运营想要将用户划分为20岁以下，20-24岁，25岁及以上三个年龄段，分别查看不同年龄段用户的明细情况，请取出相应数据。（注：若年龄为空请返回其他。）
+```sql
+select device_id, gender,
+    case 
+        when age < 20 then "20岁以下"
+        when age >= 20 and age <= 24 then "20-24岁"
+        when age >= 25 then "25岁及以上"
+        else "其他"
+    end as age_cut
+from user_profile;
+
+```
+
+### 使用 year month day
+现在运营想要计算出2021年8月每天用户练习题目的数量，请取出相应数据。
+```sql
+select day(date) as day, count(question_id) as question_cnt
+from question_practice_detail
+where year(date) = 2021 and month(date)=08
+group by day;
 ```
