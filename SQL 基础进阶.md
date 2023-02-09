@@ -1,7 +1,7 @@
 ---
 title: SQL 基础进阶
 created: '2023-02-09T07:53:50.893Z'
-modified: '2023-02-09T11:10:01.418Z'
+modified: '2023-02-09T11:33:05.808Z'
 ---
 
 # SQL 基础进阶
@@ -149,4 +149,21 @@ left join user_payment_time as b
 on a.user_id = b.user_id
 where timediff(b.pay_time,a.click_time)<=300
 ) as temp1
+```
+牛客有评论记录表`comment_detail`，输出 comment 以 '是' 或 '求' 开头的的 id，comment列，查询返回结果名称和顺序
+```sql
+select id, comment
+from comment_detail
+where comment regexp '^[是求]'
+```
+牛客有评论记录表`comment_detail`，输出所有第二话题为1002的评论对应的第一话题subject_id1的数量cnt，按照第一话题升序排序，查询返回结果名称和顺序为
+```sql
+select subject1 as subject_id1, count(subject1) as cnt
+from (
+    select substring_index(subject_set,",",1) as subject1
+    from comment_detail
+    where substring_index(substring_index(subject_set,",",2),",",-1) = 1002
+) as temp1
+group by subject1
+order by subject1 asc;
 ```
