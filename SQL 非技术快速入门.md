@@ -1,7 +1,7 @@
 ---
 title: SQL 非技术快速入门
 created: '2023-02-08T11:27:02.530Z'
-modified: '2023-02-09T07:04:27.419Z'
+modified: '2023-02-09T07:52:22.182Z'
 ---
 
 # SQL 非技术快速入门
@@ -221,4 +221,34 @@ right join (
 on a.gpa = b.gpa and a.university = b.university
 order by a.university asc;
 
+```
+现在运营想要了解复旦大学的每个用户在8月份练习的总题目数和回答正确的题目数情况，请取出相应明细数据，对于在8月份没有练习过的用户，答题数结果返回0.
+```sql
+select a.device_id, "复旦大学" as university, count(b.id) as question_cnt, sum(if(b.result="right",1,0)) as right_question_cnt
+from user_profile as a 
+left join question_practice_detail as b
+on a.device_id = b.device_id and month(b.date)= 08
+where a.university ="复旦大学"
+group by a.device_id;
+```
+现在运营想要了解浙江大学的用户在不同难度题目下答题的正确率情况，请取出相应数据，并按照准确率升序输出。
+***很难***
+```sql
+select qd.difficult_level, sum(if(qpd.result="right",1,0))/count(qpd.device_id) as correct_rate -- sum()求和结合if（）条件 除以做题设备数
+from question_practice_detail as qpd
+left join user_profile as up
+on qpd.device_id = up.device_id
+left join question_detail as qd
+on qpd.question_id = qd.question_id
+where up.university="浙江大学"  
+group by qd.difficult_level
+order by correct_rate asc;
+
+```
+***简单***
+现在运营想要了解2021年8月份所有练习过题目的总用户数和练习过题目的总次数，请取出相应结果
+```sql
+select count(distinct device_id) as did_cnt, count(id) as question_cnt
+from question_practice_detail
+where year(question_practice_detail.date)=2021 and month(question_practice_detail.date)=08
 ```
