@@ -1,7 +1,7 @@
 ---
 title: SQL 非技术快速入门
 created: '2023-02-08T11:27:02.530Z'
-modified: '2023-02-09T06:36:31.658Z'
+modified: '2023-02-09T06:43:58.518Z'
 ---
 
 # SQL 非技术快速入门
@@ -185,4 +185,12 @@ from
 
 
     ) as new_table
+```
+
+现在运营举办了一场比赛，收到了一些参赛申请，表数据记录形式如下所示，现在运营想要统计每个性别的用户分别有多少参赛者，请取出相应结果
+***使用 substring_index()***
+```sql
+select substring_index(profile,",",-1) as gender, count(device_id) as number
+from user_submit
+group by gender;
 ```
