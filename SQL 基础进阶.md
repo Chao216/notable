@@ -1,7 +1,7 @@
 ---
 title: SQL 基础进阶
 created: '2023-02-09T07:53:50.893Z'
-modified: '2023-02-09T08:35:44.659Z'
+modified: '2023-02-09T08:54:10.024Z'
 ---
 
 # SQL 基础进阶
@@ -32,4 +32,20 @@ select date(date) as date, user_id, sum(pass_count) as total_pass_count
 from  questions_pass_record_detail
 group by user_id, date
 having sum(pass_count) >5
+```
+现有牛客刷题记录数据表、用户信息表如下，请查询2022年毕业用户的刷题记录，查询返回结果名称和顺序为
+```sql
+select user_info.user_id, question_type, device, pass_count, `date`
+from questions_pass_record
+left join user_info
+on questions_pass_record.user_id = user_info.user_id
+where user_info.graduation_year = 2022;
+```
+现有牛客刷题记录数据表、用户信息表如下，对于2022年以来有刷题的用户，请查询他们的user_id和毕业院校，查询返回结果名称和顺序为
+```sql
+select a.user_id, b.university
+from questions_pass_record as a
+left join user_info as b
+on a.user_id = b.user_id
+where year(a.date) = 2022;
 ```
