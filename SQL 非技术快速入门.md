@@ -1,7 +1,7 @@
 ---
 title: SQL 非技术快速入门
 created: '2023-02-08T11:27:02.530Z'
-modified: '2023-02-09T05:53:19.050Z'
+modified: '2023-02-09T06:36:31.658Z'
 ---
 
 # SQL 非技术快速入门
@@ -167,4 +167,22 @@ select day(date) as day, count(question_id) as question_cnt
 from question_practice_detail
 where year(date) = 2021 and month(date)=08
 group by day;
+```
+### 难题
+现在运营想要查看用户在某天刷题后第二天还会再来刷题的平均概率。请你取出相应数据。
+```sql
+select 
+    round(count(date2)/count(date1),4) as avg_ret
+from 
+    (
+    select 
+    distinct a.device_id,
+    a.date as date1,
+    b.date as date2
+    from question_practice_detail as a
+    left join question_practice_detail as b
+    on a.device_id = b.device_id and datediff(b.date, a.date) = 1
+
+
+    ) as new_table
 ```
