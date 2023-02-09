@@ -1,7 +1,7 @@
 ---
 title: SQL 非技术快速入门
 created: '2023-02-08T11:27:02.530Z'
-modified: '2023-02-09T06:43:58.518Z'
+modified: '2023-02-09T06:46:10.558Z'
 ---
 
 # SQL 非技术快速入门
@@ -194,3 +194,10 @@ select substring_index(profile,",",-1) as gender, count(device_id) as number
 from user_submit
 group by gender;
 ```
+对于申请参与比赛的用户，blog_url字段中url字符后的字符串为用户个人博客的用户名，现在运营想要把用户的个人博客用户字段提取出单独记录为一个新的字段，请取出所需数据。
+```sql
+select device_id, substring_index(blog_url,"/",-1)
+from user_submit;
+```
+
+
