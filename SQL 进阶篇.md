@@ -1,7 +1,7 @@
 ---
 title: SQL 进阶篇
 created: '2023-02-09T14:53:13.713Z'
-modified: '2023-02-10T07:38:40.755Z'
+modified: '2023-02-10T09:04:36.693Z'
 ---
 
 # SQL 进阶篇
@@ -75,3 +75,78 @@ order by submit_month
 ```
 
 > mysql 提供 any_value() 应对group by 报错， last_day() 获取当月最后一天， day()进一步取得天数
+
+请统计2021年每个未完成试卷作答数大于1的有效用户的数据（有效用户指完成试卷作答数至少为1且未完成数小于5），输出用户ID、未完成试卷作答数、完成试卷作答数、作答过的试卷tag集合，按未完成试卷数量由多到少排序。
+
+```sql
+select uid, incomplete_cnt, complete_cnt, detail 
+from (
+    select uid, 
+sum(if(submit_time is not null, 1,0)) as complete_cnt,
+sum(if(submit_time is null,1,0)) as incomplete_cnt,
+group_concat(distinct sub separator";") as detail
+from (
+select a.uid,
+concat_ws(":",substring(a.start_time,1,10),b.tag) as sub,
+a.submit_time
+from exam_record as a
+left join examination_info as b
+on a.exam_id = b.exam_id
+where year(a.start_time)=2021
+) temp_table
+group by uid
+) as final_table
+where incomplete_cnt >1
+and complete_cnt >=1 
+and incomplete_cnt < 5
+order by incomplete_cnt desc;
+
+```
+> 先两表连接，并将时间与tag用','合并以及筛选2021年
+
+select uid
+        ,concat_ws(':',substring(start_time,1,10),tag) as sub
+        ,submit_time
+from exam_record a
+inner join examination_info b
+on a.exam_id = b.exam_id
+where year(start_time) = '2021'
+第二步通过submit_time来计算完成，未完成试卷数，还有通过group_concat()来将第一步的数据通过';'合并成detial
+
+select uid
+        ,sum(if(submit_time is not null,1,0)) as complete_cnt
+        ,sum(if(submit_time is null,1,0)) as incomplete_cnt
+        ,group_concat(distinct sub separator ';') as detail
+from(
+select uid
+        ,concat_ws(':',substring(start_time,1,10),tag) as sub
+        ,submit_time
+from exam_record a
+inner join examination_info b
+on a.exam_id = b.exam_id
+where year(start_time) = '2021'
+) cnt 
+group by uid
+第三步筛选出未完成试卷作答数大于1的有效用户就好，where+and筛选就行，还有排序不要忘了
+
+select uid,incomplete_cnt,complete_cnt,detail
+from(
+select uid
+        ,sum(if(submit_time is not null,1,0)) as complete_cnt
+        ,sum(if(submit_time is null,1,0)) as incomplete_cnt
+        ,group_concat(distinct sub separator ';') as detail
+from(
+select uid
+        ,concat_ws(':',substring(start_time,1,10),tag) as sub
+        ,submit_time
+from exam_record a
+inner join examination_info b
+on a.exam_id = b.exam_id
+where year(start_time) = '2021'
+) cnt 
+group by uid
+) aa
+where incomplete_cnt > 1 
+and complete_cnt >= 1 and incomplete_cnt < 5
+order by incomplete_cnt desc
+感觉这个逻辑写的不复杂，一层套一层就好，感兴趣的可以看看，如果有更简单更直观的方法欢迎指正
