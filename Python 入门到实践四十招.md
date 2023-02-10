@@ -1,7 +1,7 @@
 ---
 title: Python 入门到实践四十招
 created: '2023-02-10T13:30:18.471Z'
-modified: '2023-02-10T14:00:28.846Z'
+modified: '2023-02-10T14:06:30.182Z'
 ---
 
 # Python 入门到实践四十招
@@ -36,6 +36,17 @@ import sys
 for line in sys.stdin:
     a = line.split()
     del a[0]
+    print(a)
+
+```
+牛妹有一个坏习惯，一旦与朋友吵架了，她就要删除好友。现在输入一个行多个字符串表示牛妹的朋友，请把它们封装成列表，然后再输入与牛妹吵架的朋友的名字，请使用remove函数帮她从列表中删除这个好友，然后输出完整列表。
+### NP23 remove
+```python
+import sys
+
+for line in sys.stdin:
+    a = line.split()
+    a.remove(input())
     print(a)
 
 ```
