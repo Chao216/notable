@@ -1,7 +1,7 @@
 ---
 title: SQL 进阶篇
 created: '2023-02-09T14:53:13.713Z'
-modified: '2023-02-10T06:32:14.374Z'
+modified: '2023-02-10T07:38:40.755Z'
 ---
 
 # SQL 进阶篇
@@ -58,3 +58,20 @@ group by month
 
 ```
 > 学习使用date_format(), 一个人一天做好几次，distinct uid, submit_time
+
+请从中统计出2021年每个月里用户的月总刷题数month_q_cnt 和日均刷题数avg_day_q_cnt（按月份升序排序）以及该年的总体情况，
+```sql
+select date_format(submit_time,"%Y%m") as submit_month, any_value(count(id)) as month_q_cnt, any_value(round(count(id)/day(last_day(submit_time)),3)) as avg_day_q_cnt
+from practice_record
+where year(submit_time)=2021
+group by submit_month
+union all 
+    select "2021汇总" as submit_month, count(id) as month_q_cnt,round(count(id)/31,3) as avg_day_q_cnt
+    from practice_record
+    where year(submit_time)=2021
+
+
+order by submit_month
+```
+
+> mysql 提供 any_value() 应对group by 报错， last_day() 获取当月最后一天， day()进一步取得天数
