@@ -1,7 +1,7 @@
 ---
 title: SQL 进阶篇
 created: '2023-02-09T14:53:13.713Z'
-modified: '2023-02-10T05:45:38.702Z'
+modified: '2023-02-10T06:32:14.374Z'
 ---
 
 # SQL 进阶篇
@@ -49,3 +49,12 @@ on a.exam_id = b.exam_id
 where b.tag = "SQL"
 )
 ```
+请计算2021年每个月里试卷作答区用户平均月活跃天数avg_active_days和月度活跃人数mau，
+```sql
+select date_format(submit_time,"%Y%m")as month, round(count(distinct uid, date_format(submit_time,"%Y%m%d"))/count(distinct uid),2) as avg_active_days, count(distinct uid) as mau
+from exam_record
+where year(submit_time) = 2021
+group by month
+
+```
+> 学习使用date_format(), 一个人一天做好几次，distinct uid, submit_time
