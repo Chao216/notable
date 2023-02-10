@@ -1,7 +1,7 @@
 ---
 title: Python 入门到实践四十招
 created: '2023-02-10T13:30:18.471Z'
-modified: '2023-02-10T14:06:30.182Z'
+modified: '2023-02-10T14:21:37.549Z'
 ---
 
 # Python 入门到实践四十招
@@ -49,4 +49,26 @@ for line in sys.stdin:
     a.remove(input())
     print(a)
 
+```
+某实验班实行末位淘汰制，期中考试需要淘汰末三位同学。现输入一行多个字符串表示按分数排名的该班级同学的名字（数量一定不少于三个），请你使用list将其封装为列表，然后使用三次pop函数，去掉末三位同学的名字，最后输出淘汰后的班级名字列表。
+### NP24 pop
+```python
+import sys
+
+for line in sys.stdin:
+    a = line.split()
+    for i in range(3):
+        a.pop()
+    print(a)
+
+```
+创建一个依次包含字符串'P'、'y'、't'、'h'、'o'和'n'的列表my_list，先使用sorted函数对列表my_list进行临时排序，第一行输出排序后的完整列表，第二行输出原始的列表。再使用sort函数对列表my_list进行降序排序，第三行输出排序后完整的列表。
+### NP25 sorted, sort
+```python
+my_list = list(("P","y","t","h","o","n"))
+a = sorted(my_list)
+print(a)
+print(my_list)
+my_list.sort(reverse=True)
+print(my_list)
 ```
